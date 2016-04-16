@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 09-abr-2016 13:40:43 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="POJOS.Visitas" table="visitas" catalog="comerciales" optimistic-lock="version">
+        <composite-id name="id" class="POJOS.VisitasId">
+            <key-property name="usuariosId" type="int">
+                <column name="usuarios_id" />
+            </key-property>
+            <key-property name="empresasId" type="int">
+                <column name="empresas_id" />
+            </key-property>
+        </composite-id>
+        <many-to-one name="empresas" class="POJOS.Empresas" update="false" insert="false" fetch="select">
+            <column name="empresas_id" not-null="true" />
+        </many-to-one>
+        <many-to-one name="usuarios" class="POJOS.Usuarios" update="false" insert="false" fetch="select">
+            <column name="usuarios_id" not-null="true" />
+        </many-to-one>
+        <property name="fecha" type="string">
+            <column name="fecha" length="45" />
+        </property>
+        <property name="resultado" type="string">
+            <column name="resultado" length="16777215" />
+        </property>
+        <property name="motivo" type="string">
+            <column name="motivo" length="150" />
+        </property>
+    </class>
+</hibernate-mapping>
