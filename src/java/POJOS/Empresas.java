@@ -1,8 +1,7 @@
-package POJOS.POJO_B;
-// Generated 09-abr-2016 13:40:41 by Hibernate Tools 4.3.1
+package POJOS;
+// Generated 02-may-2016 18:45:51 by Hibernate Tools 4.3.1
 
 
-import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -22,7 +21,7 @@ public class Empresas  implements java.io.Serializable {
      private String cp;
      private int tlf;
      private int comercial;
-     private Timestamp fechaAlta;
+     private Date fechaAlta;
      private String contacto;
      private Set visitases = new HashSet(0);
 
@@ -30,8 +29,7 @@ public class Empresas  implements java.io.Serializable {
     }
 
 	
-    public Empresas(String cif, String nombre, String direccion, String provincia, String poblacion, String cp, int tlf, int comercial, Timestamp fechaAlta,String contacto) {
-        this.cif = cif;
+    public Empresas(String nombre, String direccion, String provincia, String poblacion, String cp, int tlf, int comercial, Date fechaAlta) {
         this.nombre = nombre;
         this.direccion = direccion;
         this.provincia = provincia;
@@ -40,9 +38,8 @@ public class Empresas  implements java.io.Serializable {
         this.tlf = tlf;
         this.comercial = comercial;
         this.fechaAlta = fechaAlta;
-        this.contacto=contacto;
     }
-    public Empresas(String cif, String nombre, String direccion, String provincia, String poblacion, String cp, int tlf, int comercial, Timestamp fechaAlta, String contacto, Set visitases) {
+    public Empresas(String cif, String nombre, String direccion, String provincia, String poblacion, String cp, int tlf, int comercial, Date fechaAlta, String contacto, Set visitases) {
        this.cif = cif;
        this.nombre = nombre;
        this.direccion = direccion;
@@ -119,11 +116,11 @@ public class Empresas  implements java.io.Serializable {
     public void setComercial(int comercial) {
         this.comercial = comercial;
     }
-    public  Timestamp getFechaAlta() {
+    public Date getFechaAlta() {
         return this.fechaAlta;
     }
     
-    public void setFechaAlta(Timestamp fechaAlta) {
+    public void setFechaAlta(Date fechaAlta) {
         this.fechaAlta = fechaAlta;
     }
     public String getContacto() {

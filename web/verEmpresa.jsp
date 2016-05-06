@@ -6,14 +6,23 @@
 <%
     int idEmpresa = -1;
     Empresas emp = null;
-    try {
+    try 
+    {
         idEmpresa = Integer.parseInt(request.getParameter("idEmpresa"));
-    } catch (Exception e) {
-
+    } 
+    catch (Exception e) 
+    {
+       out.print(e);
     }
     emp = Op_Empresas.find(idEmpresa);
-
-    String n_comercial = Op_Usuarios.find(emp.getComercial()).getNombre();
+    
+    String n_comercial="-1";
+    try
+    {
+    n_comercial = Op_Usuarios.find(emp.getComercial()).getNombre();
+    }
+    catch (Exception e)
+    {}
 %>
 <!DOCTYPE html>
 <html>

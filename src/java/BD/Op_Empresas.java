@@ -1,6 +1,6 @@
 package BD;
 
-import POJOS.POJO_B.Empresas;
+import POJOS.Empresas;
 import es.cartera.HibernateUtil;
 import java.util.List;
 import org.hibernate.Criteria;
@@ -10,6 +10,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
+
 
 // *
 // * @author pc
@@ -122,5 +123,26 @@ public class Op_Empresas {
         } finally {
             session.close();
         }
+    }
+    
+    public static void update( POJOS.Empresas e)
+    {
+           
+        SessionFactory sfactory = HibernateUtil.getSessionFactory();
+        Session session = sfactory.openSession();
+        Transaction tx = session.beginTransaction();
+
+        POJOS.Empresas old_Empresa = null;
+
+        old_Empresa = (POJOS.Empresas) session.load(POJOS.Empresas.class, e.getId());
+
+        e.setId(old_Empresa.getId());
+
+        session.update(e); // modifica el objeto
+
+        tx.commit(); //confirma transacción (sincronización con base de datos)
+
+        session.close();
+    
     }
 }

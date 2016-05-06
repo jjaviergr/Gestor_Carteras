@@ -9,7 +9,11 @@
 
 <!DOCTYPE HTML>
 <html>
-    <head><title></title></head>
+    <head>
+        <title>
+            
+        </title>
+    </head>
 </html>
 <%    String cif = request.getParameter("cif");
     String nombreEmpresa = request.getParameter("nombre");
@@ -31,7 +35,7 @@
     long lnMilisegundos = utilDate.getTime();
     java.sql.Timestamp sqlTimestamp = new java.sql.Timestamp(lnMilisegundos);
     
-    Empresas e = new Empresas(cif,nombreEmpresa, direccion, provincia, poblacion, cp, tlf, comercial, sqlTimestamp,contacto);
+    Empresas e = new Empresas(cif,nombreEmpresa, direccion, provincia, poblacion, cp, tlf, comercial, sqlTimestamp,contacto,null);
 
     try 
     {

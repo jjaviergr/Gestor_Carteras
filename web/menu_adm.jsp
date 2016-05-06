@@ -17,6 +17,12 @@
                     <div id="toolbar_botones">
                         <ul>
                             <li>
+                                <a href="usuarios.jsp">
+                                    <span class="icono-32-volver"></span>
+                                    Adm.Usuarios
+                                </a>
+                            </li>
+                            <li>
                                 <a href="empresas.jsp">
                                     <span class="icono-32-empresas"></span>
                                     Empresas

@@ -1,27 +1,26 @@
-<%-- 
-    Document   : visitas
-    Created on : 16-abr-2016, 13:31:10
-    Author     : pc
---%>
-
-
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="POJOS.Visitas"%>
+<%@page import="java.util.Iterator"%>
 <%@page import="java.util.List"%>
-<%@page import="java.util.ArrayList"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-
+<%@page import="BD.Op_Visitas"%>
 <%
-    List listado = Op_Visitas.list();
-    int n_empresas = Op_Visitas.list().size();
+    
+    List listado = Op_Visitas.find(1);
+    
+    
+    int n_empresas = listado.size();
     int nPaginas = (n_empresas / 10);
-    if (n_empresas % 10 != 0) {
+    if (n_empresas % 10 != 0) 
+    {
         nPaginas++;
     }
+    
 %>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Comerciales - GestiÃ³n de Visitas.</title>
+        <title>Comerciales - Gestión de Visitas.</title>
         <link rel="shortcut icon" href="./favicon.ico" />
         <link rel="stylesheet" type="text/css" media="screen" href="css/estilos.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="css/forms.css" />
@@ -29,11 +28,11 @@
         <link rel="stylesheet" type="text/css" media="screen" href="css/posicionamiento.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="css/nyroModal.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="css/ui/jquery-ui-1.8.21.custom.css" />
-        <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>        
-        <script type="text/javascript" src="js/jquery-ui-1.8.21.custom.min.js"></script>
-        <script type="text/javascript" src="js/jquery.nyroModal.custom.min.js"></script>
-        <script type="text/javascript" src="js/jquery.nyroModal-ie6.min.js"></script>
-        <script type="text/javascript">
+        <script  src="js/jquery-1.7.2.min.js"></script>        
+        <script  src="js/jquery-ui-1.8.21.custom.min.js"></script>
+        <script  src="js/jquery.nyroModal.custom.min.js"></script>
+        <script  src="js/jquery.nyroModal-ie6.min.js"></script>
+        <script >
             $(document).ready(function () {
                 $(".nyroModal").nyroModal();
                 $("input:submit").button();
@@ -51,7 +50,7 @@
             <%}%>
             });
             function Confirmar() {
-                return confirm('Â¿Estas seguro que deseas borrar la empresa?');
+                return confirm('¿Estas seguro que deseas borrar la visita?');
             }
         </script>
     </head>
@@ -63,9 +62,9 @@
                     <div id="toolbar_botones">
                         <ul>
                             <li>
-                                <a href="nueva-empresa.jsp">
+                                <a href="nueva-visita.jsp">
                                     <span class="icono-32-add"></span>
-                                    AÃ±adir
+                                    Añadir
                                 </a>
                             </li>
                             <li>
@@ -93,36 +92,41 @@
                     <thead>
                         <tr>
                             <th style="display:none">Id</th>
-                            <th width="80p">C.I.F.</th>
-                            <th>Nombre</th>
-                            <th width="80p">Tlf</th>
-                            <th width="200p">Per.Contacto</th>
-                            <th width="80p">Alta</th>
-                            <th width="80p">Oper.</th>
+                            <th width="80p">Empresa</th>
+                            <th>Nombre de Comercial</th>
+                            <th width="80p">Motivo</th>
+                            <th width="200p">Resultado</th>
+                            <th width="160p">&nbsp;</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
-                        <% for (int i = 0; i < listado.size(); i++) {
-                                Visitas e = (Visitas) listado.get(i);
+                        <% Iterator<Visitas> it=listado.iterator();
+                        while (it.hasNext())
+                        {
+                                Visitas v=it.next();
                         %>
 
                         <tr>
-                            <td style="display:none"><%=e.getId()%></td>
-                            <td><%=e.getCif()%></td>
-                            <td><%=e.getNombre()%></td>
-                            <td align="center"><%=e.getTlf()%></td>
-                            <td><%=e.getContacto()%></td>
-                            <td align="center"><%
-                                   SimpleDateFormat fecha = new SimpleDateFormat("dd/MM/yyyy");
-                                   out.print(fecha.format(e.getFechaAlta().getTime()));%></td>
+                            <td style="display:none"><%=v.getId()%></td>
+                            <td><%=v.getEmpresas().getCif()%></td>
+                            <td><%=v.getUsuarios().getNombre()%></td>
+                            <td align="center"><%=v.getMotivo()%></td>
+                            <td><%=v.getResultado()%></td>
                             <td align="center">
-                                <a href="nueva-empresa.jsp?update=<%=e.getId()%>">
-                                    <img src="img/icono16/editar.png" alt="editar" title="Editar la empresa" />
+                                <%
+                                   SimpleDateFormat fecha = new SimpleDateFormat("dd/MM/yyyy");
+                                   out.print(fecha.format(v.getFecha().getTime()));
+                                %>
+                            </td>
+                            <td align="center">
+                                <a href="nueva-visita.jsp?update=<%=v.getId()%>">
+                                    <img src="img/icono16/editar.png" alt="editar" title="Editar visita" />
                                 </a>
-                                <a href="acciones/borrarEmpresa.action.jsp?idEmpresa=<%=e.getId()%>" onclick="return Confirmar();">
-                                    <img src="img/icono16/borrar.png" alt="editar" title="Borrar la empresa" />
+                                <a href="acciones/borrarVisita.action.jsp?idEmpresa=<%=v.getId()%>" onclick="return Confirmar();">
+                                    <img src="img/icono16/borrar.png" alt="editar" title="Borrar la visita" />
                                 </a>
-                                <a class="nyroModal" href="verEmpresa.jsp?idEmpresa=<%=e.getId()%>">
+                                <a class="nyroModal" href="verEmpresa.jsp?idEmpresa=<%=v.getId()%>">
                                     <img src="img/icono16/ver.png" alt="editar" title="Ver ficha de empresa" />
                                 </a>
                             </td>
@@ -133,13 +137,13 @@
                     <tfoot>
                         <tr>
                             <td colspan="2">
-                                <h5>NÂºVisitas: <%=n_empresas%></h5>
+                                <h5>NºVisitas: <%=n_empresas%></h5>
                             </td>
                             <td colspan="5">
                                 <ul class="paginar">
 
                                     <% for (int i = nPaginas - 1; i >= 0; i--) {%>
-                                    <li><a href="empresas.jsp?pag=<%=i%>"><%=(i + 1)%></a></li>
+                                    <li><a href="visitas.jsp?pag=<%=i%>"><%=(i + 1)%></a></li>
                                         <% } %>
                                 </ul>                                
                                 <span class="limpiar"></span>
@@ -179,4 +183,3 @@
         <% }%>
     </body>
 </html>
-

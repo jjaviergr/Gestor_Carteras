@@ -20,23 +20,26 @@
     } 
     
     try
-    {   /*
-        Boolean mensaje;
-        mensaje=Op_Usuarios.validar(login, Md5.getStringMessageDigest(pass,Md5.MD5));
-        
-        response.sendRedirect("../login.jsp?error="+mensaje);*/
-        
+    {   
+        /*Si el usuario no es valido lo hecho fuera*/        
         if ( !Op_Usuarios.validar(login, Md5.getStringMessageDigest(pass,Md5.MD5))){
             response.sendRedirect("../login.jsp?error=3");
             return;
         }
         
-        
+        /*Si el usuario si es valido grabo su cookie***/
         POJOS.Usuarios usr=BD.Op_Usuarios.find(login);
         session.setAttribute("uid", usr.getId() );
         session.setAttribute("isLogin", true);
-        response.sendRedirect("../menu.jsp");
-        return;
+        if ( !Op_Usuarios.esAdm(login))
+        {           
+            response.sendRedirect("../menu.jsp");
+            return;
+         }
+         else
+         {
+            response.sendRedirect("../menu_adm.jsp");    
+         }
 
     }
     catch (Exception e)

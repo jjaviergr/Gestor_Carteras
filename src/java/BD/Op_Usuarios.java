@@ -1,8 +1,10 @@
 package BD;
 
-import POJOS.POJO_B.Usuarios;
+
+import POJOS.Usuarios;
 import es.cartera.HibernateUtil;
 import java.util.List;
+import java.util.Set;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
@@ -17,7 +19,7 @@ import org.hibernate.criterion.Restrictions;
  */
 public class Op_Usuarios {
 
-    public static void add(POJOS.POJO_B.Usuarios u) {
+    public static void add(POJOS.Usuarios u) {
         SessionFactory sfactory = HibernateUtil.getSessionFactory();
         Session session = sfactory.openSession();
         Transaction tx = session.beginTransaction();
@@ -95,14 +97,14 @@ public class Op_Usuarios {
         return (resultado);
     }
 
-    public static void update(String id, POJOS.POJO_B.Usuarios u) {
+    public static void update(int id, POJOS.Usuarios u) {
         SessionFactory sfactory = HibernateUtil.getSessionFactory();
         Session session = sfactory.openSession();
         Transaction tx = session.beginTransaction();
 
-        POJOS.POJO_B.Usuarios old_user = null;
+        POJOS.Usuarios old_user = null;
 
-        old_user = (POJOS.POJO_B.Usuarios) session.load(POJOS.POJO_B.Usuarios.class, id);
+        old_user = (POJOS.Usuarios) session.load(POJOS.Usuarios.class, id);
 
         u.setId(old_user.getId());
 
@@ -113,12 +115,12 @@ public class Op_Usuarios {
         session.close();
     }
 
-    public static void delete(String id) {
+    public static void delete(int id) {
         SessionFactory sfactory = HibernateUtil.getSessionFactory();
         Session session = sfactory.openSession();
         Transaction tx = session.beginTransaction();
 
-        POJOS.POJO_B.Usuarios u = (POJOS.POJO_B.Usuarios) session.load(POJOS.POJO_B.Usuarios.class, id);
+        POJOS.Usuarios u = (POJOS.Usuarios) session.load(POJOS.Usuarios.class, id);
         session.delete(u); // elimina el objeto
 
         tx.commit();
@@ -127,7 +129,7 @@ public class Op_Usuarios {
     }
 
     public static boolean validar(String login, String pass) {
-        POJOS.POJO_B.Usuarios user = Op_Usuarios.find(login);
+        POJOS.Usuarios user = Op_Usuarios.find(login);
         if (user != null) {
             if (user.getPass().matches(pass)) {
                 return true;
@@ -144,63 +146,25 @@ public class Op_Usuarios {
         return (cadena);
 
     }
-
-    /*
-     public static void inserta()
+    
+    public static boolean esAdm(String login)
     {
-        
-    }
-    
-    //Eliminar un objeto Empleados de la BD (por ejemplo el empleado 4465)
-    public static void borra()
-    {
-        
-    }
-    
-    //Modificar el salario y comisión de un objeto Empleados de la BD 
-    //(empleado 4465, con los nuevos valores 2200 y 10 respectivamente).
-    public static void actualiza()
-    {
-        SessionFactory sfactory=HibernateUtil.getSessionFactory();
-        Session session=sfactory.openSession();
-        Empleados em ;
-        Transaction tx=session.beginTransaction();
-        em = (Empleados) session.load(Empleados.class, (short) 4465);
-        
-        em.setSalario((float)2200);
-        em.setComision((float)10);
-        session.update(em); // modifica el objeto
-        
-        tx.commit(); //confirma transacción (sincronización con base de datos)
-        
-        session.close();
-    }
-    
-    
-    
-    public static void imprime_Emp()
-    {
-        SessionFactory sfactory=HibernateUtil.getSessionFactory();
-        org.hibernate.Session session=sfactory.openSession();
-        System.out.println("================================================");
-        System.out.println("Listado de Empleados");
-        Empleados emp;
-    
-        Query q=session.createQuery("from Empleados");
-        Iterator<?> iter = q.iterate();
-        while (iter.hasNext()){
-           emp=(Empleados)iter.next();
-           System.out.println("=================================================");
-           System.out.println("Empleado numero :"+emp.getEmpNo());
-           System.out.println("Nombre :"+emp.getApellido());
-           System.out.println("Oficio :"+emp.getOficio());
-           System.out.println("Departamentos :"+emp.getDepartamentos()); 
-           System.out.println("Salario :"+emp.getSalario());
-           System.out.println("Comisión :"+emp.getComision());
+        Usuarios usu=find(login);
+        if (usu.isEsAdm())
+        {
+            return true;
         }
-        System.out.println("=================================================");
-       session.close();
+        else
+        {
+            return false;
+        }
+    }
+    
+    public static Set extrae_visitas(String login)
+    {
+        Usuarios us=find(login);
+        return(us.getVisitases());
         
-        
-    }*/
+    }
+  
 }

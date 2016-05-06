@@ -7,7 +7,7 @@
     try{
         
         Empresas emp=Op_Empresas.find(cif);
-        response.sendRedirect("../nueva-empresa.jsp?edit="+ emp.getId());
+        response.sendRedirect("../nueva-empresa.jsp?update="+ emp.getId());
     }
     catch(Exception e){
         response.sendRedirect("../empresas.jsp?error=4");

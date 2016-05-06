@@ -4,24 +4,24 @@
 <%@page import="POJOS.Usuarios"%>
 <%@page import="BD.Op_Usuarios"%>
 <%@page import="java.util.List"%>
-<%@page import="BD.Op_Empresas"%>
-<%@page import="POJOS.Empresas"%>
+<%@page import="BD.Op_Usuarios"%>
+<%@page import="POJOS.Usuarios"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%
-    Empresas e = null;
+    Usuarios e = null;
     boolean inicializa = false;
     boolean error=false;
     String mensaje_Error="";
-    String id_empresa=request.getParameter("update");    
+    String id_usu=request.getParameter("update");    
 
-    if (id_empresa!=null)
+    if (id_usu!=null)
     {          
         try
         {
            inicializa=true;
-           int id=Integer.parseInt(id_empresa);
-           e=Op_Empresas.find(id);
+           int id=Integer.parseInt(id_usu);
+           e=Op_Usuarios.find(id);
         }
         catch(Exception ex)
         {
@@ -31,24 +31,18 @@
             
         }
     }
-    
-    
-    
     //int edit_id = -1;
 
     
     //inicializa = true;
        
-    //e = (Empresas) session.getAttribute("empresa");
-        
-   
-
-%>
+    //e = (Usuarios) session.getAttribute("usu");
+ %>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Comerciales - Alta Nueva empresa.</title>
+        <title>Comerciales - Alta Nueva usu.</title>
         <link rel="shortcut icon" href="./favicon.ico" />
         <link rel="stylesheet" type="text/css" media="screen" href="css/estilos.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="css/forms.css" />
@@ -59,13 +53,13 @@
         <script type="text/javascript" src="js/additional-methods.min.js"></script>
         <script type="text/javascript">
             $(document).ready(function () {
-                $('#altaempresa').submit(function () {
+                $('#altausu').submit(function () {
                     if (confirm("¿Estas Seguro?"))
                         return true;
                     else
                         return false;
                 });
-                $('#altaempresa').validate({
+                $('#altausu').validate({
                     rules: {
                         "nombre": {
                             "required": true,
@@ -99,7 +93,7 @@
                     },
                     messages: {
                         "nombre": {
-                            "required": "Debe de escribir el nombre de la empresa",
+                            "required": "Debe de escribir el nombre de la usu",
                             "maxlength": "El numero maximo de caracteres es 80"
                         },
                         "direccion": {
@@ -131,7 +125,7 @@
                 });
             });
             function EnviarFormulario() {
-                if ($("#altaempresa").valid())
+                if ($("#altausu").valid())
                     document.forms[0].submit();
             }
         </script>
@@ -151,7 +145,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="empresas.jsp">
+                                <a href="usus.jsp">
                                     <span class="icono-32-cancelar"></span>
                                     Cancelar
                                 </a>                                
@@ -159,7 +153,7 @@
                         </ul>
                         <div class="limpiar"></div>
                     </div>
-                    <div class="toolbar_titulo icono-48-empresas">
+                    <div class="toolbar_titulo icono-48-usus">
                         <h2>Nueva Empresa</h2>
                     </div>                    
                 </div>
@@ -170,9 +164,7 @@
                     <p><%=mensaje_Error%></p>
                 </div>
                 <% }%>
-                <form id="altaempresa" method="POST" action="<% if (!inicializa)
-                                                                   out.print("acciones/altaempresa.action.jsp"); 
-                else out.print("acciones/editarempresa.action.jsp");
+                <form id="altausu" method="POST" action="<% out.print("acciones/altausu.action.jsp"); 
                       %>">
                     <% if (e != null && e.getId() != -1) {%>
                     <input type="hidden" name="id" value="<%=e.getId()%>" />
@@ -180,7 +172,7 @@
                     <table class="altaEmpresa">
                         <tr>
                             <td width="130"><label>C.I.F.:</label></td>
-                            <td><input type="text" name="cif" value="<%=inicializa ? e.getCif() : ""%>" /></td>
+                            <td><input type="text" name="NIF" value="<%=inicializa ? e.getNif() : ""%>" /></td>
                         </tr>
                         <tr>
                             <td><label>Nombre:</label></td>
@@ -188,63 +180,24 @@
                         </tr>
                         <tr>
                             <td><label>Direccion:</label></td>
-                            <td><input type="text" name="direccion" value="<%=inicializa ? e.getDireccion() : ""%>"/></td>
+                            <td><input type="text" name="Apellidos" value="<%=inicializa ? e.getApellidos() : ""%>"/></td>
                         </tr>
                         <tr>
                             <td><label>Provincia:</label></td>
-                            <td><input type="text" name="provincia" value="<%=inicializa ? e.getProvincia() : ""%>"/></td>
+                            <td><input type="text" name="Fecha Nacimiento" value="<%=inicializa ? e.getFnac() : ""%>"/></td>
                         </tr>
                         <tr>
                             <td><label>Población:</label></td>
-                            <td><input type="text" name="poblacion" value="<%=inicializa ? e.getPoblacion() : ""%>"/></td>
+                            <td><input type="text" name="Permisos de Adm" value="<%=inicializa ? e.isEsAdm() : ""%>"/></td>
                         </tr>
+                        
+                       
                         <tr>
-                            <td><label>Cod.Postal:</label></td>
-                            <td><input type="text" name="cp" value="<%=inicializa ? e.getCp() : ""%>"/></td>
-                        </tr>
-                        <tr>
-                            <td><label>Telefono:</label></td>
-                            <td><input type="text" name="tlf" value="<%=inicializa ? e.getTlf() : ""%>"/></td>
-                        </tr>
-                        <tr>
-                            <td><label>Per.Contacto:</label></td>
-                            <td><input type="text" name="contacto" value="<%=inicializa ? e.getContacto() : ""%>"/></td>
-                        </tr>
-                        <tr>
-                            <td><label>Comercial :</label></td>
-                            <td>
-                                <select name="comercial">
-                                    <option value="-1">----Seleccione Comercial------</option>
-                                   
-                                    <%
-                                        int i=0;
-                                        List lista=Op_Usuarios.list();
-                                        ListIterator iter = lista.listIterator(lista.size());
-                                        while (iter.hasPrevious())                                        
-                                        {
-                                            Usuarios u=(Usuarios)lista.get(i);
-                                           
-                                            iter.previous();
-                                           i++;
-                                    %>
-                                    <option value="<%=u.getId()%>">
-                                        <%=u.getApellidos()+" "%>
-                                        <%=u.getNombre()%>
-                                        
-                                    </option>
-                                    <%
-                                        }
-                                    %>
-                                    
-                                </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><label>Fecha Alta:</label></td>
+                            <td><label>Fecha Ultimo Acceso:</label></td>
                             <td><input type="text" name="falta" readonly="readonly" 
                                        value="<%
                                            SimpleDateFormat fecha = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
-                                   out.print(fecha.format(new Date()));
+                                   out.print(fecha.format(e.getFu()));
                                        %>"/>
                                 
                             </td>
